@@ -202,4 +202,8 @@ With the SUT and load driver CPU configuration sorted out, you are now ready to 
 #-DwqmUseVirtualThreads=true
 ```
 
+# Any questions?
+
+Contact us on developers@openliberty.io
+
 With that property commented out (or set to `false`), Liberty will serve the offered load with the Liberty default thread pool. With the property set to `true`, virtual threads will be used to serve the offered load.
