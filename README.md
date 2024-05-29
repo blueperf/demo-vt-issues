@@ -18,7 +18,7 @@ If you cannot get a separate load driver system, you can run the load driver on 
 Your choice of operating system for the SUT depends on which virtual threads issue you want to reproduce:
 
 - we see the virtual threads "low CPU, low throughput" issue most clearly on bare metal Linux/Intel systems with kernel 4.x (e.g. RHEL 8 )
-- we see a mix of "low CPU, low tps" and "high CPU, high tps" behavior, with kernel 5.x (e.g. RHEL 9), perhaps due to changes in the linux scheduler between kernel levels [Laura: between which kernel levels? This reasoning doesn't make sense.]
+- we see a mix of "low CPU, low tps" and "high CPU, high tps" behavior, with kernel 5.x (e.g. RHEL 9)
 - we do not see "low CPU, low tps" on kernel 6.x, or on virtualized systems; they show only "high CPU, low tps"
 
 (See the "How to reproduce the "unexpected virtual threads performance findings" section for more details.)
@@ -27,7 +27,7 @@ As normal with performance work, the SUT should be running only the test workloa
 
 ## Building and configure Liberty on the SUT
 
-Because we concluded from our investigations that we would not replace Liberty's existing autonomic threadpool with virtual threads, there is no release build of Liberty using virtual threads. You must, therefore, build Liberty with a virtual threads enablement patch as we did in our testing.
+Because we concluded from our investigations that we would not replace Liberty's existing autonomic threadpool with virtual threads, there is no release build of Liberty using virtual threads to handle HTTP traffic. We have made a Liberty virtual threads enablement patch PR available for test/demo purposes. You can either build Liberty in its entirety with the patch PR included, or use an Open Liberty build from the download site and patch that build by swapping in the channel framework jar file from the PR, which contains the patch. 
 
 1. Configure Java on the SUT:
 
@@ -202,8 +202,9 @@ With the SUT and load driver CPU configuration sorted out, you are now ready to 
 #-DwqmUseVirtualThreads=true
 ```
 
+With that property commented out (or set to `false`), Liberty will serve the offered load with the Liberty default thread pool. With the property set to `true`, virtual threads will be used to serve the offered load.
+
+
 # Any questions?
 
 Contact us on developers@openliberty.io
-
-With that property commented out (or set to `false`), Liberty will serve the offered load with the Liberty default thread pool. With the property set to `true`, virtual threads will be used to serve the offered load.
