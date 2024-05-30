@@ -128,7 +128,7 @@ Because we concluded from our investigations that we would not replace Liberty's
 4. Prepare the load driver on the load driver system:
 
    1. Download the current version of [Apache JMeter](https://jmeter.apache.org/download_jmeter.cgi).
-   2. Extract the downloaded ZIP fle on to the load driver system.
+   2. Extract the downloaded ZIP file on the load driver system.
    3. Extract the attached `acmeair-demo-jmx.zip` and place the enclosed file `microprofile_primitives.jmx` in the `bin` directory of the JMeter installation.
    [LAURA: where is this attached?]
    4. In a terminal on the load driver system, in the JMeter `bin` directory, run the following command (with the SUT acmeAirAuth server started and ready to receive HTTP requests):
