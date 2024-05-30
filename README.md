@@ -114,7 +114,7 @@ Because we concluded from our investigations that we would not replace Liberty's
 
       The last item in the `jvm.options` file is the system property that controls the "Liberty virtual threads demo patch". The property defaults to `false`:  by default, HTTP requests are served by threads from the Liberty default thread pool (a JUC ExecutorService).
       
-      When the property is set to `true` (by uncommenting the line in the `jvm.options` file) and restarting the acmeAirAuth server, HTTP requests submitted to the server are served using virtual threads.
+      When the property is set to `true` by uncommenting the line in the `jvm.options` file and restarting the acmeAirAuth server, HTTP requests submitted to the server are served using virtual threads.
 
    You should now have a working Liberty server configured with an app that responds to REST endpoint with an "OK" message.
 
