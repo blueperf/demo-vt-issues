@@ -129,16 +129,16 @@ Because we concluded from our investigations that we would not replace Liberty's
 
    1. Download the current version of [Apache JMeter](https://jmeter.apache.org/download_jmeter.cgi).
    2. Extract the downloaded ZIP file on the load driver system.
-   3. Extract the attached `acmeair-demo-jmx.zip` and place the enclosed file `microprofile_primitives.jmx` in the `bin` directory of the JMeter installation.
-   [LAURA: where is this attached?]
+   3. Extract the [acmeair-demo-jmx.zip](https://github.com/blueperf/demo-vt-issues/blob/main/acmeair-demo-jmx.zip) and place the enclosed file `microprofile_primitives.jmx` in the `bin` directory of the JMeter installation.
    4. In a terminal on the load driver system, in the JMeter `bin` directory, run the following command (with the SUT acmeAirAuth server started and ready to receive HTTP requests):
 
       ```
-      taskset -c 7-10 ./jmeter.sh  -n -t microprofile_primitives.jmx -JHOST=<SUT-host/ip> -JPORT=9080 -JTHREAD=10 -JDURATION=30 -JRAMP=10 -JURL=/status ; sleep 5 ;taskset -c 7-10 ./jmeter.sh  -n -t microprofile_primitives.jmx -JHOST=<SUT-host/ip> -JPORT=9080 -JTHREAD=25 -JDURATION=90 -JRAMP=10 -JURL=/status
+      taskset -c 7-10 ./jmeter.sh  -n -t microprofile_primitives.jmx -JHOST=<SUT-host/ip> -JPORT=9080 -JTHREAD=10 -JDURATION=180 -JRAMP=10 -JURL=/status 
       ```
 
       - Replace <SUT-host/ip> with the hostname or IP address of the SUT where the acmeAirAuth server is running.
       - The example pins the JMeter process to CPUs 7-10 on the load driver; adjust the CPU selection to suit the system that your load driver is running on.
+            - Reminder: If running JMeter and Open Liberty on the same system, make sure to pin them to different CPUs
       
    You should see output from JMeter like this:
 
