@@ -2,7 +2,7 @@
 How to demonstrate virtual threads performance issues 
 
 
-# Reproducing the virtual threads issues using the AcmeAir-authservice application in Open Liberty
+# Reproducing virtual threads performance issues using the AcmeAir-authservice application in Open Liberty
 
 ## Hardware and operating system configurations
 
