@@ -15,11 +15,11 @@ Doing this isolates the two JVMs to avoid interactions.
 
 If you cannot get a separate load driver system, you can run the load driver on the same server as the SUT. If you do this, the SUT and load driver must be pinned to separate CPU sets, so that the behavior of the SUT is minimally affected by the CPU and memory consumption of the load driver.
 
-Your choice of operating system for the SUT depends on which virtual threads issue you want to reproduce:
+The SUT should be a bare metal Linux/Intel system. Your choice of operating system version for the SUT depends on which virtual threads issue you want to reproduce. In our observations:
 
-- we see the virtual threads "low CPU, low throughput" issue most clearly on bare metal Linux/Intel systems with kernel 4.x (e.g. RHEL 8 )
-- we see a mix of "low CPU, low tps" and "high CPU, high tps" behavior, with kernel 5.x (e.g. RHEL 9)
-- we do not see "low CPU, low tps" on kernel 6.x, or on virtualized systems; they show only "high CPU, low tps"
+- the virtual threads "low CPU, low throughput" behavior occurs with kernel 4.x (e.g. RHEL 8 )
+- a mix of "low CPU, low tps" and "high CPU, high tps" behavior occurs with kernel 5.x (e.g. RHEL 9)
+- kernel 6.x systems show only "high CPU, low tps" behavior
 
 (See the "How to reproduce the "unexpected virtual threads performance findings" section for more details.)
 
@@ -27,7 +27,12 @@ As normal with performance work, the SUT should be running only the test workloa
 
 ## Building and configure Liberty on the SUT
 
-Because we concluded from our investigations that we would not replace Liberty's existing autonomic threadpool with virtual threads, there is no release build of Liberty using virtual threads to handle HTTP traffic. We have made a Liberty virtual threads enablement patch PR available for test/demo purposes. You can either build Liberty in its entirety with the patch PR included, or use an Open Liberty build from the download site and patch that build by swapping in the channel framework jar file from the PR, which contains the patch. 
+Because we concluded from our investigations that we would not replace Liberty's existing autonomic threadpool with virtual threads, there is no release build of Liberty using virtual threads to handle HTTP traffic. We have made a [Liberty virtual threads enablement patch PR](https://github.com/OpenLiberty/open-liberty/pull/28317) available for test/demo purposes. 
+
+1. Get an Open Liberty build patched to enable virtual threads in place of the Liberty thread pool
+
+    1. You can either [build Open Liberty](https://github.com/OpenLiberty/open-liberty?tab=readme-ov-file#running-a-build) in its entirety with the patch PR included, or
+    2. use a vanilla Open Liberty build from the [download site](https://openliberty.io/start/) and patch that build to support use of virtual threads by swapping the [channel framework jar file from the PR](https://github.com/OpenLiberty/open-liberty/files/15178368/com.ibm.ws.channelfw_1.0.89.jar-virtual-threads-patch-jdk-21.zip), which contains the patch, in place of the original channel framework jar in the vanilla build.
 
 1. Configure Java on the SUT:
 
@@ -37,17 +42,9 @@ Because we concluded from our investigations that we would not replace Liberty's
       ```
       # export JAVA_HOME=<path-to-java-dir>
       ```
-
-2. [Build Open Liberty](https://github.com/OpenLiberty/open-liberty?tab=readme-ov-file#running-a-build) with the virtual threads patch from GitHub:
-
-   - [Open Liberty source code](https://github.com/OpenLiberty/open-liberty)
-   - [virtual threads enablement patch PR](https://github.com/OpenLiberty/open-liberty/pull/28317)
-
-   The virtual threads enablement patch provides a new channel framework project (a new channelfw JAR file) in the Open Liberty build.
-
 2. Configure Open Liberty on the SUT:
 
-   1. On the SUT, extract the built Open Liberty package.
+   1. On the SUT, place the patched Open Liberty build in a location of your choosing, we will call that diretory <Liberty-install> .
 
    3. [Build the AcmeAir auth service app](https://github.com/blueperf/acmeair-authservice-java/blob/main/Build_Instructions.md), then download the WAR file and place it on the SUT.
 
