@@ -25,7 +25,7 @@ The SUT should be a bare metal Linux/Intel system. Your choice of operating syst
 
 As normal with performance work, the SUT should be running only the test workload; if other processes are running on the system, the test workload behavior might be affected.
 
-## Building and configure Liberty on the SUT
+## Configuring Liberty on the SUT
 
 Because we concluded from our investigations that we would not replace Liberty's existing autonomic threadpool with virtual threads, there is no release build of Liberty using virtual threads to handle HTTP traffic. We have made a [Liberty virtual threads enablement patch PR](https://github.com/OpenLiberty/open-liberty/pull/28317) available for test/demo purposes. 
 
@@ -125,7 +125,7 @@ Because we concluded from our investigations that we would not replace Liberty's
       OK200
       ```
 
-4. Prepare the load driver on the load driver system:
+ ## Prepare the load driver on the load driver system:
 
    1. Download the current version of [Apache JMeter](https://jmeter.apache.org/download_jmeter.cgi).
    2. Extract the downloaded ZIP file on the load driver system.
