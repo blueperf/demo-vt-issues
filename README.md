@@ -154,9 +154,6 @@ Because we concluded from our investigations that we would not replace Liberty's
       summary = 300096 in 00:00:20 = 15372.2/s Avg:     0 Min:     0 Max:    75 Err:     0 (0.00%)
       summary + 205017 in 00:00:10 = 20501.7/s Avg:     0 Min:     0 Max:   111 Err:     0 (0.00%) Active: 10 Started: 10 Finished: 0
       summary = 505113 in 00:00:30 = 17109.7/s Avg:     0 Min:     0 Max:   111 Err:     0 (0.00%)
-      summary +  11167 in 00:00:01 = 21030.1/s Avg:     0 Min:     0 Max:    13 Err:     0 (0.00%) Active: 0 Started: 10 Finished: 10
-      summary = 516280 in 00:00:30 = 17179.0/s Avg:     0 Min:     0 Max:   111 Err:     0 (0.00%)
-      Tidying up ...    @ Tue May 07 16:35:50 EDT 2024 (1715114150532)
       ```
 
    Check to make sure that the `Err: count` is zero. This confirms that requests are being served as expected.
