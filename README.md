@@ -44,7 +44,7 @@ Because we concluded from our investigations that we would not replace Liberty's
       ```
 2. Configure Open Liberty on the SUT:
 
-   1. On the SUT, place the patched Open Liberty build in a location of your choosing, we will call that diretory <Liberty-install> .
+   1. On the SUT, place the patched Open Liberty build in a location of your choosing, we will call that diretory `<Liberty-install>`.
 
    3. [Build the AcmeAir auth service app](https://github.com/blueperf/acmeair-authservice-java/blob/main/Build_Instructions.md), then download the WAR file and place it on the SUT.
 
