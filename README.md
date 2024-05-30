@@ -52,7 +52,7 @@ Because we concluded from our investigations that we would not replace Liberty's
 
          ```
          # cd <Liberty-install>/wlp
-         # ./bin/server acmeAirAuth create
+         # ./bin/server create acmeAirAuth
          ```
 
    6. Edit the `server.xml` file in the Liberty server:
