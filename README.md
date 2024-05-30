@@ -165,17 +165,16 @@ Because we concluded from our investigations that we would not replace Liberty's
 
 The article describes two main categories of unexpected virtual thread performance:
 
-- low CPU, low tps - this was seen consistently on Linux kernel 4.x (RHEL 8 )
-- high CPU, low tps - this was seen consistently on Linux kernel 6.2 (Ubuntu 22.04)
-  - Linux kernel 5.x (RHEL 9) showed intermittent "low CPU, low tps" and more often showed "high CPU, low tps"
+- low CPU, low tps - seen consistently on Linux kernel 4.x (RHEL 8 )
+- high CPU, low tps - seen consistently on Linux kernel 5.x (RHEL 9) kernel 6.2 (Ubuntu 22.04)
 
 In this context, a few definitions:
 
 - low CPU: the SUT is not using all the available CPU, although it has enough offered load to do so.
 - high CPU: the SUT is using all the available CPU.
-- low tps: the SUT is handling significantly less traffic than a baseline established by running the same test with the SUT configured to use the Liberty thread pool to serve the offered load.
+- low tps: the SUT throughput with virtual threads is significantly lower than when running the same test with the SUT configured to use the Liberty thread pool.
 
-So if you want to see "low CPU, low tps", set up a test system with Linux kernel 4.x ... if you want to see "high CPU, low tps" use a system with Linux kernel 5.x (which might show some "low CPU, low tps" on occasion) or Linux kernel 6.x.
+So if you want to see "low CPU, low tps", set up a test system with Linux kernel 4.x; if you want to see "high CPU, low tps" use a system with Linux kernel 5.x (which might show "low CPU, low tps" on occasion) or Linux kernel 6.x.
 
 Or, stating it the other way around, if you can only get a test system with Linux kernel 4.x, then you should be able to reproduce "low CPU, low tps" but probably not "high CPU, low tps", and vice-versa if you can only get a test system with Linux kernel 5.x or 6.x.
 
@@ -185,13 +184,13 @@ The "low CPU, low tps" behavior is most prominent when running the SUT (Liberty)
 taskset -c 2,3 <wlp-install>/bin/server start acmeAirAuth
 ```
 
-If the JMeter load driver process will run on a different system than the Liberty SUT, then it can run on any CPUs on that system. The only concern is to make sure that the JMeter process has enough cpu and memory so that it can fully load the SUT; the load driver should not be the bottleneck.
+If the JMeter load driver process will run on a different system than the Liberty SUT, then it can run on any CPUs on that system. Just make sure the JMeter process has enough cpu and memory to fully load the SUT, and that there is adequate network bandwith between the load driver system and the SUT; the load driver should not be the bottleneck.
 
 If you only have a single system to work with, but it has enough CPUs to host both the SUT and the load driver, then make sure to pin the JMeter process to a different set of CPUs than the SUT is using, preferably on a different chipset if available. For example, if  acmeAirAuth is launched using `taskset -c 2,3` as in the example above, then JMeter may be launched with `taskset -c 10-15`.
 
 In the preceding example, JMeter is given more CPUs than the acmeAirAuth SUT. This is intentional, so that JMeter is able to fully load the SUT. When you run a test with acmeAirAuth configured to use the Liberty thread pool, the 2-CPU SUT should show near 100% CPU utilization, while the JMeter load driver CPUs should show plenty of idle CPU.
 
-Speaking of observing the CPU utilization: when working in LinTel, NMON is a great tool for observing utilization of various system resources, including CPU. When I run these experiments, I always have an NMON GUI open on a terminal into each system (SUT host and load driver host).
+Speaking of observing the CPU utilization: when working in LinTel, [NMON](https://nmon.sourceforge.io/pmwiki.php) is a great tool for observing utilization of various system resources, including CPU. When I run these experiments, I always have an NMON GUI open on a terminal into each system (SUT host and load driver host). If you save NMON data to a file, [NMONVisualizer](https://nmonvisualizer.github.io/nmonvisualizer/) is a great tool to display the NMON data graphically.
 
 With the SUT and load driver CPU configuration sorted out, you are now ready to do some A-B testing, comparing performance using Liberty's thread pool against performance using virtual threads. The A-B control is this system property in the jvm.options file:
 
