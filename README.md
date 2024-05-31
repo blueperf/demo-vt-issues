@@ -21,7 +21,7 @@ The SUT should be a bare metal Linux/Intel system. Your choice of operating syst
 - a mix of "low CPU, low tps" and "high CPU, high tps" behavior occurs with kernel 5.x (e.g. RHEL 9)
 - kernel 6.x systems show only "high CPU, low tps" behavior
 
-(See the "How to reproduce the "unexpected virtual threads performance findings" section for more details.)
+(See the [How to reproduce the "unexpected virtual threads performance findings](#how-to-reproduce-the-unexpected-virtual-threads-performance-findings) section for more details.)
 
 As normal with performance work, the SUT should be running only the test workload; if other processes are running on the system, the test workload behavior might be affected.
 
